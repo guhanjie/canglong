@@ -7,10 +7,13 @@ import java.util.UUID;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * ID生成器
  * 
- * @author botao.liao
- * 
+ * Class Name:		IdGenerator<br/>
+ * Description:		[description]
+ * @time				2015年12月1日 上午10:48:41
+ * @author			canglong
+ * @version			1.0.0 
+ * @since 			JDK 1.6
  */
 public class IdGenerator {
     private static IdGenerator instance = new IdGenerator();
@@ -18,8 +21,8 @@ public class IdGenerator {
     private final static long twepoch = 1361753741828L;//2013-01-01
     private long sequence = 0L;
     private final static long workerIdBits = 8L;
-    private final static long maxWorkerId = -1L ^ -1L << workerIdBits;
     private final static long sequenceBits = 5L;
+    private final static long maxWorkerId = -1L ^ -1L << workerIdBits;
 
     private final static long workerIdShift = sequenceBits;
     private final static long timestampLeftShift = sequenceBits + workerIdBits;

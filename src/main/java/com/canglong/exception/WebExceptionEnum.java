@@ -25,9 +25,13 @@ public enum WebExceptionEnum {
 		DATA_HAS_USED(10012, "data.has.used","数据已被使用"),
 		RPC_ERROR(10013, "rpc.error","远程调用异常"),
 		
-		// 1XX 用户操作相关
+		// 1XX 用户相关
 		USER_LOCKED(10100, "user.locked","用户被锁定"),
-		FRENQUENCY_TO_FAST(10101,"frequency.too.fast","操作太频繁"), 
+		FRENQUENCY_TO_FAST(10101, "frequency.too.fast","操作太频繁"),
+		USER_ID_NOT_EXIST(10102, "user.id.not.exist", "用户ID不能为空"),
+		USER_NAME_NOT_EXIST(10102, "user.name.not.exist", "用户名不能为空"),
+		USER_PASSWORD_NOT_EXIST(10102, "user.password.not.exist", "用户密码不能为空"),
+		USER_EMAIL_NOT_EXIST(10103, "user.email.not.exist", "用户邮箱不能为空"),
 		
 		// 2XX  商品相关
 		PRODUCT_NOT_SALE(10200, "suite.not.sale","商品不能售卖"),

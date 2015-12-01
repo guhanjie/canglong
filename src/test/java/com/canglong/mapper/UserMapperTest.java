@@ -35,7 +35,7 @@ public class UserMapperTest {
 		//Create
 		logger.debug("Create one record to table[{}]...\n", tableName);
 		User model = new User();
-		model.setId((int)id);
+		model.setId(id);
 		model.setName("canglong");
 		model.setPassword("canglong");
 		long insertCount = userMapper.insertSelective(model);
