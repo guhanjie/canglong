@@ -6,49 +6,41 @@ import java.util.List;
 public class WebException extends RuntimeException {
     private static final long serialVersionUID = 1L;
     
-    private int httpStatus = 299;   
+    private int httpStatus = 299;   			//HTTP状态码，web通信正常，只是服务异常，因此属于2**，此处取值299
     private Integer code;							//异常代码
     private String message;    					//异常英文KEY
-    private String screenMessage;   			//用于界面显示的消息
-    private String errorCause; 					//异常原因，便于开发人员调试的消息    
+    private String screenMessage;   		//用于界面显示的消息
+    private String causeMessage; 			//异常原因，便于开发人员调试的消息    
     private List<String> params;				//错误消息中的参数，如：用户名长度要大于{0}小于{1}
           
     protected WebException(Integer code, String message) {
-		super(message,null);
+		super(message, null);
 		this.code = code;
 		this.message = message;
+	}
+    
+    protected WebException(Integer code, String message, String screenMessage) {
+		super(message, null);
+		this.code = code;
+		this.message = message;
+		this.screenMessage = screenMessage;
 	}
         
-    protected WebException(Integer code, String message, String errorCause) {
-		super(message,null);
+    protected WebException(Integer code, String message, Throwable cause) {
+		super(message, cause);
 		this.code = code;
 		this.message = message;
-		this.errorCause = xssClean(errorCause);
+		this.causeMessage = (cause==null ? null : xssClean(cause.getMessage()));
 	}
     
-    protected WebException(Integer code, String message, String screenMessage, String errorCause) {
-		super(message,null);
+    protected WebException(Integer code, String message, String screenMessage, Throwable cause) {
+		super(message, cause);
 		this.code = code;
 		this.message = message;
 		this.screenMessage = screenMessage;
-		this.errorCause = xssClean(errorCause);
+		this.causeMessage = (cause==null ? null : xssClean(cause.getMessage()));
 	}
-    
-    protected WebException(Integer code, String message, String errorCause, Throwable e) {
-		super(message,e);
-		this.code = code;
-		this.message = message;
-		this.errorCause = xssClean(errorCause);
-	}
-	
-    protected WebException(Integer code, String message, String screenMessage, String errorCause, Throwable e) {
-		super(message,e);
-		this.code = code;
-		this.message = message;
-		this.screenMessage = screenMessage;
-		this.errorCause = xssClean(errorCause);
-	}
-	
+    	
 	public int getHttpStatus() {
 		return httpStatus;
 	}
@@ -81,30 +73,6 @@ public class WebException extends RuntimeException {
 	}
 
 
-	public String getErrorCause() {
-		return errorCause;
-	}
-
-
-	public WebException setErrorCause(String errorCause) {
-		this.errorCause = errorCause;
-		return this;
-	}
-
-
-	public WebException setParams(List<String> params) {
-		this.params = params;
-		return this;
-	}
-	
-	public WebException addParam(String param) {
-		if (this.params == null) {
-			this.params = new ArrayList<String>();
-		}
-		this.params.add(param);
-		return this;
-	}
-
 	public String getScreenMessage() {
 		return screenMessage;
 	}
@@ -114,10 +82,40 @@ public class WebException extends RuntimeException {
 		return this;
 	}
 
+	public String getCauseMessage() {
+		if(causeMessage!=null && params!=null) {
+			for(int i=0; i<params.size(); i++) {
+				String regex = "{"+i+"}";
+				causeMessage.replaceAll(regex, params.get(i));
+			}
+		}
+		return causeMessage;
+	}
+
+
+	public WebException setCauseMessage(String causeMessage) {
+		this.causeMessage = xssClean(causeMessage);
+		return this;
+	}
+
+
 	public List<String> getParams() {
 		return params;
 	}
 	
+	public WebException setParams(List<String> params) {
+		this.params = params;
+		return this;
+	}
+
+	public WebException addParam(String param) {
+		if (this.params == null) {
+			this.params = new ArrayList<String>();
+		}
+		this.params.add(param);
+		return this;
+	}
+
 	private static String xssClean(String str){
 		if(str == null || str.length() == 0){
 			return str;

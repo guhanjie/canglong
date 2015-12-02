@@ -2,32 +2,27 @@ package com.canglong.exception;
 
 public class WebExceptionFactory {
 	
-	public static WebException exception(Integer code, String message, String screenMessage, String errorCause, Throwable cause){
-        return new WebException(code, message, errorCause, screenMessage, cause);
-    }
-		
-    public static WebException exception(WebExceptionEnum exceptionEnum, String errorCause){
-    	if(exceptionEnum == null) {
-    		exceptionEnum = WebExceptionEnum.SYSTEM_ERROR;
-    	}
-		return new WebException(exceptionEnum.getCode(), exceptionEnum.getMessage(), exceptionEnum.getScreenMessage(), errorCause);
+	public static WebException exception(Integer code, String message, String screenMessage, Throwable cause){
+        return new WebException(code, message, screenMessage, cause);
     }
 	
-    public static WebException exception(WebExceptionEnum exceptionEnum, Throwable cause){
-    	if(exceptionEnum == null) {
-    		exceptionEnum = WebExceptionEnum.SYSTEM_ERROR;
-    	}
-		return new WebException(exceptionEnum.getCode(), exceptionEnum.getMessage(), exceptionEnum.getScreenMessage(), cause);
+    public static WebException exception(WebExceptionEnum exEnum){
+    	exEnum = (exEnum==null ? WebExceptionEnum.SYSTEM_ERROR : exEnum);
+		return new WebException(exEnum.getCode(), exEnum.getMessage(), exEnum.getScreenMessage(), null);
+	}
+
+    public static WebException exception(WebExceptionEnum exEnum, String screenMsg){
+    	exEnum = (exEnum==null ? WebExceptionEnum.SYSTEM_ERROR : exEnum);
+		return new WebException(exEnum.getCode(), exEnum.getMessage(), screenMsg, null);
     }
     
-    public static WebException exception(WebExceptionEnum exceptionEnum,  String errorCause, Throwable cause){
-    	if(exceptionEnum == null) {
-    		exceptionEnum = WebExceptionEnum.SYSTEM_ERROR;
-    	}
-		return new WebException(exceptionEnum.getCode(), exceptionEnum.getMessage(), exceptionEnum.getScreenMessage(), errorCause, cause);
-    }
+	public static WebException exception(WebExceptionEnum exEnum, Throwable cause){
+    	exEnum = (exEnum==null ? WebExceptionEnum.SYSTEM_ERROR : exEnum);
+		return new WebException(exEnum.getCode(), exEnum.getMessage(), exEnum.getScreenMessage(), cause);
+	}
 
-	public static WebException exception(WebExceptionEnum exceptionEnum){
-		return exception(exceptionEnum, null, null);
+    public static WebException exception(WebExceptionEnum exEnum, String screenMsg, Throwable cause){
+    	exEnum = (exEnum==null ? WebExceptionEnum.SYSTEM_ERROR : exEnum);
+		return new WebException(exEnum.getCode(), exEnum.getMessage(), screenMsg, cause);
     }
 }

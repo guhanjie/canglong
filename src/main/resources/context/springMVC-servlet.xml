@@ -21,23 +21,14 @@
         </mvc:argument-resolvers>
     </mvc:annotation-driven>
 
-	<!-- <bean id="viewResolver" class="org.springframework.web.servlet.view.tiles3.TilesViewResolver">
-        <property name="viewClass">
-            <value>org.springframework.web.servlet.view.tiles3.TilesView</value>
-        </property>
-    </bean>
-    <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
-        <property name="definitions">
-            <list>
-                <value>classpath:tiles/tiles.xml</value>
-            </list>
-        </property>
-    </bean> -->
-
-    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" 
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.tiles3.TilesViewResolver"
+				p:viewClass="org.springframework.web.servlet.view.tiles3.TilesView" />
+    <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer"
+    			p:definitions="/WEB-INF/tiles-defs.xml" />
+    <!-- <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" 
 	    			p:viewClass="org.springframework.web.servlet.view.JstlView" 
 	    			p:prefix="/WEB-INF/pages/"  
-	    			p:suffix=".jsp" />
+	    			p:suffix=".jsp" /> -->
     
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" 
 					p:defaultEncoding="UTF-8" 

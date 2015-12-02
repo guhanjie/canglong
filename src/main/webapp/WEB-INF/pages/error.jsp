@@ -1,10 +1,10 @@
-<%@ page pageEncoding="utf-8" %>
+<%@ page  contentType="text/html;charset=UTF-8" language="java" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div data-page="error.jsp" id="page-body"  class="container" style="min-height:700px;">
     <div id="page-body-content" style="width:315px;margin:0 auto;">
-        <img src="//static.glodon.com/static${staticVersion}/common/images/500.png"/>
-        <div style="color:#666;font-size:30px;" ondblclick='$("#detailMsg").slideToggle(1000);'>
+        <img src="<%=request.getContextPath() %>/resources/img/error.jpg"/>
+        <div style="color:#666; font-size:30px;text-align: center;" ondblclick='$("#detailMsg").slideToggle(1000);'>
         	<c:if test="${not empty exception.screenMessage}">
         		${exception.screenMessage}
         	</c:if>

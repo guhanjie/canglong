@@ -19,8 +19,7 @@ public class WebExceptionHandler implements HandlerExceptionResolver {
 	public static final Logger LOGGER = LoggerFactory.getLogger(WebExceptionHandler.class);
 
 	@Override
-	public ModelAndView resolveException(HttpServletRequest httpservletrequest,
-			HttpServletResponse httpservletresponse, Object handler,
+	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
 			Exception exception) {		
 		LOGGER.error(exception.getMessage(), exception);
 		
@@ -33,20 +32,20 @@ public class WebExceptionHandler implements HandlerExceptionResolver {
 			exception = WebExceptionFactory.exception(WebExceptionEnum.SYSTEM_ERROR, debugMessage, exception);
 		}		
 		WebException ee = (WebException)exception;
-		String errorCause = ee.getErrorCause();
-		//最多显示200个字符，以免将底层堆栈返回给客户端
-		if(errorCause != null && errorCause.length()>200){
-			errorCause = errorCause.substring(0, 200);
+		String causeMsg = ee.getCauseMessage();
+		//最多显示800个字符，以免将底层堆栈返回给客户端
+		if(causeMsg != null && causeMsg.length()>800){
+			causeMsg = causeMsg.substring(0, 800);
 		}		
 		//status
-		httpservletresponse.setStatus(ee.getHttpStatus());
+		response.setStatus(ee.getHttpStatus());
 		//ajax
-		if(HttpUtils.isAjaxRequest(httpservletrequest) || HttpUtils.isMultiPartRequest(httpservletrequest)){
+		if(HttpUtils.isAjaxRequest(request) || HttpUtils.isMultiPartRequest(request)){
 			PrintWriter os = null;
 			try {
-				httpservletresponse.setStatus(ee.getHttpStatus());
-				os = httpservletresponse.getWriter();
-				os.print(errorCause);
+				response.setStatus(ee.getHttpStatus());
+				os = response.getWriter();
+				os.print(causeMsg);
 			} catch (IOException e) {
 				LOGGER.error(e.getMessage(), e);
 			} finally {
@@ -54,8 +53,8 @@ public class WebExceptionHandler implements HandlerExceptionResolver {
 			}
 			return null;
 		}else{
-			httpservletrequest.setAttribute("errorCause", errorCause);
-			httpservletrequest.setAttribute("exception", exception);
+			request.setAttribute("causeMessage", causeMsg);
+			request.setAttribute("exception", exception);
 			return new ModelAndView("error");
 		}
 	}

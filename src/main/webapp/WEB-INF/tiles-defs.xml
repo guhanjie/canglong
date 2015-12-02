@@ -1,0 +1,39 @@
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+    <definition name="template" template="/WEB-INF/pages/layout/template.jsp">
+        <put-attribute name="title" value="Title" cascade="true"/>
+        <put-attribute name="cssPath" value="resources/css" cascade="true"/>
+        <put-attribute name="jsPath" value="resources/js" cascade="true"/>        
+        <put-attribute name="css" value="" cascade="true" />
+        <put-attribute name="js" value="" cascade="true" />
+        <put-attribute name="body" value="" cascade="true" />
+    </definition>
+
+    <definition name="main" extends="template">
+        <put-attribute name="header" value="/WEB-INF/pages/layout/header.jsp" cascade="true"/>
+        <put-attribute name="nav" value="" cascade="true"/>
+        <put-attribute name="body" value="/WEB-INF/pages/layout/main.jsp"/>
+        <put-attribute name="footer" value="/WEB-INF/pages/layout/footer.jsp" cascade="true"/>
+    </definition>
+    
+    <definition name="index" extends="main">
+    	<put-attribute name="title" value="Title - 首页" />
+        <put-attribute name="content" value="/WEB-INF/pages/index.jsp"/>
+    </definition>
+
+    <definition name="user" extends="main">
+    	<put-attribute name="title" value="Title - 用户中心" />
+        <put-attribute name="content" value="/WEB-INF/pages/user.jsp"/>
+        <put-attribute name="css" value="user" />
+        <put-attribute name="js" value="user" />
+    </definition>
+
+    <definition name="error" extends="template">
+    	<put-attribute name="title" value="Title - 错误页面" />
+        <put-attribute name="body" value="/WEB-INF/pages/error.jsp"/>
+    </definition>
+    
+</tiles-definitions>

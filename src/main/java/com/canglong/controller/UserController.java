@@ -7,6 +7,8 @@
  */  
 package com.canglong.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,16 +36,17 @@ public class UserController extends BaseController {
 	private UserService userService;
 	
 	@RequestMapping(value="/{userId}/login", method=RequestMethod.PUT)
-	public String login(@PathVariable("userId") Long id, Model model) {
-		User user = userService.getUser(id);
-		model.addAttribute("user", user);
-		return "user";
+	public String login(User user, HttpServletRequest request) {
+		user.setLastIp(request.getRemoteAddr());
+		userService.login(user);
+		return "index";
 	}
 	
 	@RequestMapping(value="/signup", method=RequestMethod.POST)
-	public void signup(User user) {
+	public void signup(User user, HttpServletRequest request) {
 		long userId = IdGenerator.getInstance().nextId();
 		user.setId(userId);
+		user.setLastIp(request.getRemoteAddr());
 		userService.register(user);
 	}
 }
