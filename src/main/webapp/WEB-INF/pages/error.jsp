@@ -9,16 +9,16 @@
         		${exception.screenMessage}
         	</c:if>
         	<c:if test="${empty exception.screenMessage}">
-        		${exception.code}:${exception.errorCause}
+        		${exception.code}:${exception.message}
         	</c:if>
         </div>
     </div>
     <div id="detailMsg" style="display: none;">
             <br>错误代码：${exception.code}            
-        	<c:if test="${not empty exception.errorCause}">
-        		<br>错误详情：${exception.errorCause}
+        	<c:if test="${not empty exception.causeMessage}">
+        		<br>错误详情：${exception.causeMessage}
         	</c:if>
-        	<c:if test="${empty exception.errorCause}">
+        	<c:if test="${empty exception.causeMessage}">
         		<br>错误详情：${exception.cause}
         	</c:if>
     </div>

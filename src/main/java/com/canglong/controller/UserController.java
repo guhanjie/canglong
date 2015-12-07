@@ -7,17 +7,23 @@
  */  
 package com.canglong.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.UUID;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.canglong.model.User;
 import com.canglong.service.UserService;
+import com.canglong.util.HttpUtils;
 import com.canglong.util.IdGenerator;
 
 /**
@@ -35,11 +41,35 @@ public class UserController extends BaseController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping(value="/{userId}/login", method=RequestMethod.PUT)
-	public String login(User user, HttpServletRequest request) {
-		user.setLastIp(request.getRemoteAddr());
-		userService.login(user);
-		return "index";
+	@RequestMapping(value="/login", method=RequestMethod.GET)
+    public String login(HttpServletRequest request) {        
+        return "login";
+    }
+	
+	@RequestMapping(value="/login", method=RequestMethod.POST)
+	public String login(User user, HttpServletRequest request, HttpServletResponse response) {
+		user.setLastIp(HttpUtils.getIpAddress(request));
+		user = userService.login(user);
+        String ticket = UUID.randomUUID().toString().replace("-", "");
+        int expiry = 30*24*3600;        //30天过期
+        Cookie cookie = new Cookie("user_name", user.getName());
+		cookie.setMaxAge(expiry);
+		cookie.setPath("/");
+		response.addCookie(cookie);
+		cookie = new Cookie("access_token", ticket);
+        cookie.setMaxAge(expiry);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+		//cookie.setDomain(domainName);
+        //cookie.setSecure(secure);// 为true时用于https
+		request.getSession().setAttribute(ticket, user);
+		String gotoUrl = request.getParameter("gotoURL");
+		if(StringUtils.isBlank(gotoUrl)) {
+		    return "index";
+		}
+		else {
+		    return "forward:"+gotoUrl;
+		}
 	}
 	
 	@RequestMapping(value="/signup", method=RequestMethod.POST)

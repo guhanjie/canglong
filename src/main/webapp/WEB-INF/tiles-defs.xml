@@ -15,18 +15,23 @@
     <definition name="main" extends="template">
         <put-attribute name="header" value="/WEB-INF/pages/layout/header.jsp" cascade="true"/>
         <put-attribute name="nav" value="" cascade="true"/>
-        <put-attribute name="body" value="/WEB-INF/pages/layout/main.jsp"/>
+        <put-attribute name="body" value="/WEB-INF/pages/layout/main.jsp" cascade="true"/>
         <put-attribute name="footer" value="/WEB-INF/pages/layout/footer.jsp" cascade="true"/>
     </definition>
     
     <definition name="index" extends="main">
     	<put-attribute name="title" value="Title - 首页" />
-        <put-attribute name="content" value="/WEB-INF/pages/index.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/pages/index.jsp"  cascade="true"/>
+    </definition>
+    
+    <definition name="login" extends="main">
+    	<put-attribute name="title" value="Title - 登录" />
+        <put-attribute name="content" value="/WEB-INF/pages/login.jsp"  cascade="true"/>
     </definition>
 
     <definition name="user" extends="main">
     	<put-attribute name="title" value="Title - 用户中心" />
-        <put-attribute name="content" value="/WEB-INF/pages/user.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/pages/user.jsp"  cascade="true"/>
         <put-attribute name="css" value="user" />
         <put-attribute name="js" value="user" />
     </definition>

@@ -4,6 +4,6 @@
 <div class="container">
 	<t:insertAttribute name="header" />
 	<t:insertAttribute name="nav" />
-	<t:insertAttribute name="content" />
+	<t:insertAttribute name="content" ignore="true"/>
 	<t:insertAttribute name="footer" />
 </div>

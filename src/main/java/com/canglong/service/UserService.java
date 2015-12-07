@@ -25,20 +25,23 @@ public class UserService {
 		return userMapper.selectByPrimaryKey(id);
 	}
 	
-	public void login(User user) {
+	public User login(User user) {
 		User u = userMapper.selectByName(user.getName());
 		if(u == null) {
 			throw WebExceptionFactory.exception(WebExceptionEnum.ACCESS_FORBIDDEN, "用户名不存在，请先注册");
 		}
 		if(user.getPassword().equals(u.getPassword())) {
 			Date now = new Date();
-			user.setLastActiveTime(now);
-			LOGGER.info("User[{}] login system from host[{}] on [{}]", user.getName(), user.getLastIp(), DateTimeUtil.DateToString(now, DateTimeUtil.DateStyle.YYYY_MM_DD_HH_MM_SS));
-			userMapper.updateByPrimaryKeySelective(user);
+			LOGGER.info("User[{}] login system from host[{}] on [{}]", u.getName(), u.getLastIp(), 
+			                                        DateTimeUtil.DateToString(now, DateTimeUtil.DateStyle.YYYY_MM_DD_HH_MM_SS));
+			u.setLastActiveTime(now);
+			u.setLastIp(user.getLastIp());
+			userMapper.updateByPrimaryKeySelective(u);
 		}
 		else {
-			throw WebExceptionFactory.exception(WebExceptionEnum.ACCESS_FORBIDDEN);
+			throw WebExceptionFactory.exception(WebExceptionEnum.ACCESS_FORBIDDEN, "密码错误");
 		}
+		return u;
 	}
 	
 	public void register(User user) {

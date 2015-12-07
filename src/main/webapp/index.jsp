@@ -1,8 +1,11 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
 <body>
-	<h2>Hello World!</h2>
-	<img name="captcha" border="1" src="captcha" onclick="this.src='captcha?rand='+Math.random();"
-		alt="看不清图片，可点击刷新" />
+	<h1>Hello, world...</h1>
 </body>
 </html>

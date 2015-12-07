@@ -25,6 +25,7 @@
 	
 	<logger name="com.canglong" level="${log.root.level}"/>
     <logger name="java.sql" level="${log.sql.level}"/>
+    <logger name="org.springframework" level="DEBUG"/>
 	
 	<!-- TRACE < DEBUG < INFO < WARN < ERROR -->	 
 	<root level="${log.root.level}">
