@@ -42,7 +42,7 @@ public class UserController extends BaseController {
 	private UserService userService;
 	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
-    public String login(HttpServletRequest request) {        
+    public String login(HttpServletRequest request) {
         return "login";
     }
 	
@@ -68,7 +68,7 @@ public class UserController extends BaseController {
 		    return "index";
 		}
 		else {
-		    return "forward:"+gotoUrl;
+		    return "redirect:"+gotoUrl;
 		}
 	}
 	

@@ -14,7 +14,8 @@
         </div>
     </div>
     <div id="detailMsg" style="display: none;">
-            <br>错误代码：${exception.code}            
+            <br>错误代码：${exception.code}
+			<br>错误简述：${exception.message} 
         	<c:if test="${not empty exception.causeMessage}">
         		<br>错误详情：${exception.causeMessage}
         	</c:if>

@@ -8,6 +8,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
@@ -25,6 +26,21 @@ import org.springframework.util.Base64Utils;
 public final class HttpUtils {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpUtils.class);
+
+	private static String SCHEMA_HTTPS = "https";
+	private static String SCHEMA_HTTP = "http";
+	
+	public static String getCookieValueByName(HttpServletRequest request, String name) {
+		Cookie[] cookies = request.getCookies();
+		if(cookies != null && name != null) {
+			for(Cookie cookie : cookies) {
+				if(name.equals(cookie.getName())) {
+					return cookie.getValue();
+				}
+			}
+		}
+		return null;
+	}
     
     /** 
      * 获取请求主机IP地址,如果通过代理进来，则透过防火墙获取真实IP地址; 
@@ -156,4 +172,29 @@ public final class HttpUtils {
             return str;
         }
     }
+    
+	/**
+	 * 如果url不是以https开头，需要修改成request.getScheme()开头
+	 * 
+	 * @param request
+	 * @param url
+	 * @return
+	 */
+	public static String schema(HttpServletRequest request, String url){
+		if(url == null){
+			return null;
+		}		
+		String scheme = request.getScheme();		
+		if(url.startsWith(SCHEMA_HTTPS)){
+			return url;
+		}else if(url.startsWith(SCHEMA_HTTP)){
+			if(SCHEMA_HTTPS.equalsIgnoreCase(scheme)){
+				return SCHEMA_HTTPS + url.substring(4);
+			}else{
+				return url;
+			}
+		}else{
+			return scheme + "://" + url;
+		}
+	}
 }
