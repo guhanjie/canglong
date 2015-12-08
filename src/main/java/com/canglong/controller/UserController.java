@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.canglong.model.User;
 import com.canglong.service.UserService;
+import com.canglong.util.ApplicationConstance;
 import com.canglong.util.HttpUtils;
 import com.canglong.util.IdGenerator;
 
@@ -51,12 +52,12 @@ public class UserController extends BaseController {
 		user.setLastIp(HttpUtils.getIpAddress(request));
 		user = userService.login(user);
         String ticket = UUID.randomUUID().toString().replace("-", "");
-        int expiry = 30*24*3600;        //30天过期
-        Cookie cookie = new Cookie("user_name", user.getName());
+        int expiry = 90*24*3600;        //30天过期
+        Cookie cookie = new Cookie(ApplicationConstance.COOKIE_USER_NAME, user.getName());
 		cookie.setMaxAge(expiry);
 		cookie.setPath("/");
 		response.addCookie(cookie);
-		cookie = new Cookie("access_token", ticket);
+		cookie = new Cookie(ApplicationConstance.COOKIE_ACCESS_TOKEN, ticket);
         cookie.setMaxAge(expiry);
         cookie.setPath("/");
         response.addCookie(cookie);
@@ -71,6 +72,25 @@ public class UserController extends BaseController {
 		    return "redirect:"+gotoUrl;
 		}
 	}
+	
+   @RequestMapping(value="/logout", method=RequestMethod.GET)
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+       Cookie[] cookies = request.getCookies();
+       if(cookies != null) {
+           for(Cookie cookie: cookies) {
+               if(ApplicationConstance.COOKIE_USER_NAME.equals(cookie.getName())) {
+                   cookie.setMaxAge(0); //Delete Cookie
+                   cookie.setPath("/");
+               }
+               else if(ApplicationConstance.COOKIE_ACCESS_TOKEN.equals(cookie.getName())) {
+                   cookie.setMaxAge(0); //Delete Cookie
+                   cookie.setPath("/");
+                   request.getSession().removeAttribute(cookie.getValue()); //Delete session with request
+               }
+           }
+       }
+        return "login";
+    }
 	
 	@RequestMapping(value="/signup", method=RequestMethod.POST)
 	public void signup(User user, HttpServletRequest request) {
