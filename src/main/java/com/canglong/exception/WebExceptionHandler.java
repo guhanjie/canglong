@@ -19,8 +19,7 @@ public class WebExceptionHandler implements HandlerExceptionResolver {
 	public static final Logger LOGGER = LoggerFactory.getLogger(WebExceptionHandler.class);
 
 	@Override
-	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
-			Exception exception) {		
+	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception exception) {		
 		LOGGER.error(exception.getMessage(), exception);
 		
 		if (!(exception instanceof WebException)) {

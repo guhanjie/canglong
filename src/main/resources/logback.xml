@@ -2,7 +2,7 @@
 <configuration scan="true" scanPeriod="6 seconds" debug="true">
 	<property name="PROJECT_NAME" value="canglong" />
     <property name="PROJECT_LOG_DIR" value="${user.home}/logs/${PROJECT_NAME}" />
-    <property name="log.root.level" value="info" />
+    <property name="log.root.level" value="DEBUG" />
     <property name="log.sql.level" value="info" />
     <property file="default.properties"/>
     

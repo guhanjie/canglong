@@ -44,8 +44,7 @@
 	
     <mvc:interceptors>
         <mvc:interceptor>
-            <mvc:mapping path="/*/stat/**"/>
-            <mvc:exclude-mapping path="/*/stat/authorities"/>
+            <mvc:mapping path="/order/**"/>
             <ref bean="interceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>

@@ -1,26 +1,47 @@
 package com.canglong.controller;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.canglong.model.User;
+import com.canglong.util.ApplicationConstance;
 import com.canglong.util.HttpUtils;
 
 @Component(value = "interceptor")
 public class Interceptor implements HandlerInterceptor {
-	private Logger logger = LoggerFactory.getLogger(Interceptor.class);
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(Interceptor.class);
+	
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String requestPath = request.getRequestURL().toString();
-        logger.debug("intercept request, servlet path:[{}]", requestPath);
-        String at = HttpUtils.getCookieValueByName(request, "access_token");
-        return true;
+        LOGGER.debug("intercept request URL:[{}]", request.getRequestURL());
+        String at = HttpUtils.getCookieValueByName(request, ApplicationConstance.COOKIE_ACCESS_TOKEN);
+        if(at != null) {
+            User user = (User)request.getSession().getAttribute(at);
+            if(user != null) {
+                request.setAttribute("user", user);
+                return true;
+            }
+        }
+        //URL=  http://    	localhost:    8080		/canglong			/index				/xxx					?goto=xoxoxo
+        //解析:   [schema]   [domain]		[port]  		[contextpath]		[servletpath]	[pathinfo]		[querystring]
+    	StringBuffer gotoURL = new StringBuffer(request.getContextPath());
+    	gotoURL.append("/login?goto=");
+    	String servletPath = request.getServletPath();
+    	String pathInfo = request.getPathInfo();
+    	String queryString = request.getQueryString();
+    	gotoURL.append(servletPath==null ? "" : servletPath);
+    	gotoURL.append(pathInfo==null ? "" : pathInfo);
+    	gotoURL.append(queryString==null ? "" : queryString);
+    	response.sendRedirect(gotoURL.toString());
+        return false;
     }
 
     @Override

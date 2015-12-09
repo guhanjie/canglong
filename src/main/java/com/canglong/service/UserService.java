@@ -44,7 +44,7 @@ public class UserService {
 		return u;
 	}
 	
-	public void register(User user) {
+	public boolean register(User user) {
 		//校验注册信息完整性
 		if(user.getId() == null) {
 			throw WebExceptionFactory.exception(WebExceptionEnum.USER_ID_NOT_EXIST);
@@ -63,6 +63,7 @@ public class UserService {
 			throw WebExceptionFactory.exception(WebExceptionEnum.DATA_HAS_EXIST, "用户名已存在");
 		}
 		//注册用户
-		userMapper.insert(user);
+		int res = userMapper.insert(user);
+		return res == 1;
 	}
 }
