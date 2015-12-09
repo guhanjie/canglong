@@ -16,10 +16,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.canglong.model.User;
 import com.canglong.service.UserService;
@@ -53,15 +55,15 @@ public class UserController extends BaseController {
         String ticket = UUID.randomUUID().toString().replace("-", "");
         int expiry = 30*24*3600;        //30天过期
         Cookie cookie = new Cookie("user_name", user.getName());
+        //cookie.setDomain(domainName);
+        //cookie.setSecure(secure);// 为true时用于https
+        cookie.setPath("/");
 		cookie.setMaxAge(expiry);
-		cookie.setPath("/");
 		response.addCookie(cookie);
 		cookie = new Cookie("access_token", ticket);
-        cookie.setMaxAge(expiry);
         cookie.setPath("/");
+        cookie.setMaxAge(expiry);
         response.addCookie(cookie);
-		//cookie.setDomain(domainName);
-        //cookie.setSecure(secure);// 为true时用于https
 		request.getSession().setAttribute(ticket, user);
 		String gotoUrl = request.getParameter("gotoURL");
 		if(StringUtils.isBlank(gotoUrl)) {
@@ -72,6 +74,27 @@ public class UserController extends BaseController {
 		}
 	}
 	
+	@RequestMapping(value="/logout", method=RequestMethod.GET)
+	public Object logout(HttpServletRequest request, HttpServletResponse response) {
+		Cookie[] cookies = request.getCookies();
+		if(cookies != null) {
+			for(Cookie cookie : cookies) {
+				if("user_name".equals(cookie.getName())){
+					cookie.setPath("/");
+					cookie.setMaxAge(0);
+					response.addCookie(cookie);
+				}
+				if("access_token".equals(cookie.getName())) {
+					cookie.setPath("/");
+					cookie.setMaxAge(0);
+					response.addCookie(cookie);
+					request.getSession().removeAttribute(cookie.getValue());
+				}
+			}
+		}
+		return "login";
+	}
+
 	@RequestMapping(value="/signup", method=RequestMethod.POST)
 	public void signup(User user, HttpServletRequest request) {
 		long userId = IdGenerator.getInstance().nextId();
