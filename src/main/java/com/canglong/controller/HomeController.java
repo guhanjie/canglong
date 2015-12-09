@@ -17,8 +17,18 @@ public class HomeController {
 	@Autowired
 	private UserService userService;
 	
+	@RequestMapping(value="/index", method=RequestMethod.GET)
+	public String index() {
+		return "index";
+	}
+	
+	@RequestMapping(value="/order", method=RequestMethod.GET)
+	public String order() {
+		return "order";
+	}
+	
 	@RequestMapping(value="/user/{userId}", method=RequestMethod.GET)
-	public String hello(@PathVariable("userId") Long id, Model model) {
+	public String getUserById(@PathVariable("userId") Long id, Model model) {
 		User user = userService.getUser(id);
 		model.addAttribute("user", user);
 		return "user";

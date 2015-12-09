@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
@@ -11,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.canglong.exception.WebException;
 import com.canglong.exception.WebExceptionEnum;
+import com.canglong.model.User;
+import com.canglong.util.ApplicationConstance;
+import com.canglong.util.HttpUtils;
 
 public abstract class BaseController {
 
@@ -137,6 +141,15 @@ public abstract class BaseController {
     		}
     		return fail(null, code, message, description, debugMessage);
         }		
+	}
+	
+	protected User getUser(HttpServletRequest request) {
+		String at = HttpUtils.getCookieValueByName(request, ApplicationConstance.COOKIE_ACCESS_TOKEN);
+		if(at != null) {
+			User user = (User)request.getSession().getAttribute(at);
+			return user;
+		}
+		return null;
 	}
 
 }

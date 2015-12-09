@@ -4,7 +4,7 @@
 <tiles-definitions>
 
     <definition name="template" template="/WEB-INF/pages/layout/template.jsp">
-        <put-attribute name="title" value="Title" cascade="true"/>
+        <put-attribute name="title" value="沧龙" cascade="true"/>
         <put-attribute name="cssPath" value="resources/css" cascade="true"/>
         <put-attribute name="jsPath" value="resources/js" cascade="true"/>        
         <put-attribute name="css" value="" cascade="true" />
@@ -20,24 +20,34 @@
     </definition>
     
     <definition name="index" extends="main">
-    	<put-attribute name="title" value="Title - 首页" />
+    	<put-attribute name="title" value="沧龙 - 首页" />
         <put-attribute name="content" value="/WEB-INF/pages/index.jsp"  cascade="true"/>
     </definition>
     
+    <definition name="signup" extends="main">
+    	<put-attribute name="title" value=" 沧龙- 注册" />
+        <put-attribute name="content" value="/WEB-INF/pages/signup.jsp"  cascade="true"/>
+    </definition>
+    
     <definition name="login" extends="main">
-    	<put-attribute name="title" value="Title - 登录" />
+    	<put-attribute name="title" value="沧龙 - 登录" />
         <put-attribute name="content" value="/WEB-INF/pages/login.jsp"  cascade="true"/>
     </definition>
 
     <definition name="user" extends="main">
-    	<put-attribute name="title" value="Title - 用户中心" />
+    	<put-attribute name="title" value="沧龙 - 用户中心" />
         <put-attribute name="content" value="/WEB-INF/pages/user.jsp"  cascade="true"/>
         <put-attribute name="css" value="user" />
         <put-attribute name="js" value="user" />
     </definition>
 
+    <definition name="order" extends="main">
+    	<put-attribute name="title" value="沧龙 - 订单" />
+        <put-attribute name="content" value="/WEB-INF/pages/order.jsp"  cascade="true"/>
+    </definition>
+    
     <definition name="error" extends="template">
-    	<put-attribute name="title" value="Title - 错误页面" />
+    	<put-attribute name="title" value="沧龙 - 错误页面" />
         <put-attribute name="body" value="/WEB-INF/pages/error.jsp"/>
     </definition>
     

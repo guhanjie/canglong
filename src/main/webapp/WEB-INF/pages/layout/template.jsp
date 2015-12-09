@@ -1,4 +1,6 @@
-<%@ page  contentType="text/html;charset=UTF-8" language="java" pageEncoding="utf-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="utf-8"%>
+<%@ page import="com.canglong.util.HttpUtils"%>
+<%@ page import="com.canglong.util.ApplicationConstance"%>
 <%@ taglib prefix="t" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
@@ -7,6 +9,10 @@
 		path = "";
 	}
 	request.setAttribute("rootPath", path);
+	String at = HttpUtils.getCookieValueByName(request, ApplicationConstance.COOKIE_ACCESS_TOKEN);
+	if(at != null) {
+		request.setAttribute("user", request.getSession().getAttribute(at));
+	}
 %>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -20,12 +26,14 @@
     	<meta name="description" content="${meta.description}"/>
     	<link rel="shortcut icon" type="image/x-icon" href="${rootPath}/img/favicon.ico">
     	<t:importAttribute name="cssPath" />
-        <link rel="stylesheet" href="${rootPath}/${cssPath}/common/bootstrap.css">                
+        <link rel="stylesheet" href="${rootPath}/${cssPath}/common/bootstrap.css">
+        <link rel="stylesheet" href="${rootPath}/${cssPath}/common/header.css">
+        <link rel="stylesheet" href="${rootPath}/${cssPath}/common/footer.css">
     	<t:importAttribute name="css" />
         <c:if test='${not empty css}'>
             <script src="${rootPath}/${cssPath}/${css}.css"></script>
         </c:if>
-    	<title><t:getAsString name="title"/>-${rootPath}</title>
+    	<title><t:getAsString name="title"/></title>
     </head>
     <body>
 		<t:insertAttribute name="body" />
