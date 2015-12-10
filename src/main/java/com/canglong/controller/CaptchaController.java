@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.canglong.util.ApplicationConstance;
 import com.canglong.util.CaptchaGenerator;
 
 /**
@@ -30,10 +31,8 @@ import com.canglong.util.CaptchaGenerator;
  */
 @Controller
 @RequestMapping("/captcha")
-public class CaptchaValidateController extends BaseController {
-	
-	public static final String CAPTCHA_SESSION_NAME = "captcha_code";
-	
+public class CaptchaController extends BaseController {
+		
 	@RequestMapping(value="", method=RequestMethod.GET)
 	public void createCaptcha(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// 设置响应的类型格式为图片格式  
@@ -45,14 +44,14 @@ public class CaptchaValidateController extends BaseController {
         //设置验证码答案
         HttpSession session = request.getSession();            
         CaptchaGenerator vCode = new CaptchaGenerator(100,30,4,50);  
-        session.setAttribute(CAPTCHA_SESSION_NAME, vCode.getCode());  
+        session.setAttribute(ApplicationConstance.SESSION_CAPTCHA, vCode.getCode());  
         vCode.write(response.getOutputStream());  
 	}
 	
-	@RequestMapping(value="validation", method=RequestMethod.POST)
+	@RequestMapping(value="/validation", method=RequestMethod.POST)
 	@ResponseBody
 	public Object validate(String captchaStr, HttpServletRequest request, HttpServletResponse response) {
-		String answer = (String)request.getSession().getAttribute(CAPTCHA_SESSION_NAME);
+		String answer = (String)request.getSession().getAttribute(ApplicationConstance.SESSION_CAPTCHA);
 		if(captchaStr.equalsIgnoreCase(answer)) {
 			return success();
 		}

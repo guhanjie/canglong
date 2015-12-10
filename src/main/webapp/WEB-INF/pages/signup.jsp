@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="utf-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <form action="" method="post" autocomplete="on" class="form-horizontal">
-	<div class="form-group <c:if test="not empty ${pageContext.request['user.name.not.exist']}">has-error</c:if>">
+	<div class="form-group <c:if test="not empty ${request['user.name.not.exist']}">has-error</c:if>">
 		<label for="name" class="col-sm-2 control-label">用户名：</label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control" id="name" name="name" placeholder="请输入用户名" maxlength="30" autofocus required>
@@ -28,6 +30,15 @@
 		<label for="bank" class="col-sm-2 control-label">提现银行卡号：</label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control" id="bank" name="bank" placeholder="请输入提现银行卡号" maxlength="20" required>
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="captcha" class="col-sm-2 control-label">验证码：</label>
+		<div class="col-sm-5">
+			<input type="text" class="form-control" id="captcha" name="captcha" placeholder="请输入验证码" maxlength="4" required>
+		</div>
+		<div class="col-sm-5">
+			<img border="1" src="${rootPath}/captcha" onclick="this.src='${rootPath}/captcha?rand='+Math.random();" alt="若看不清楚图片，可点击刷新" />
 		</div>
 	</div>
 	<div class="form-group">

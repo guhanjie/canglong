@@ -1,6 +1,5 @@
 package com.canglong.controller;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,10 +13,10 @@ import com.canglong.model.User;
 import com.canglong.util.ApplicationConstance;
 import com.canglong.util.HttpUtils;
 
-@Component(value = "interceptor")
-public class Interceptor implements HandlerInterceptor {
+@Component(value = "loginInterceptor")
+public class LoginInterceptor implements HandlerInterceptor {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(Interceptor.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(LoginInterceptor.class);
 	
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

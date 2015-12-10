@@ -45,10 +45,8 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/order/**"/>
-            <ref bean="interceptor"/>
+            <ref bean="loginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
     
-    <bean id="interceptor" class="com.canglong.controller.Interceptor" />
-
 </beans>

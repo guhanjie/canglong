@@ -2,10 +2,10 @@ package com.canglong.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.canglong.model.User;
 import com.canglong.service.UserService;
@@ -28,9 +28,9 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/user/{userId}", method=RequestMethod.GET)
-	public String getUserById(@PathVariable("userId") Long id, Model model) {
+	@ResponseBody
+	public User getUserById(@PathVariable("userId") Long id) {
 		User user = userService.getUser(id);
-		model.addAttribute("user", user);
-		return "user";
+		return user;
 	}
 }
