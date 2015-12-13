@@ -27,6 +27,7 @@
     <definition name="signup" extends="main">
     	<put-attribute name="title" value=" 沧龙- 注册" />
         <put-attribute name="content" value="/WEB-INF/pages/signup.jsp"  cascade="true"/>
+        <put-attribute name="js" value="signup" />
     </definition>
     
     <definition name="login" extends="main">

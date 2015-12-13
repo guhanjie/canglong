@@ -57,4 +57,14 @@ public class CaptchaController extends BaseController {
 		}
 		return fail();
 	}
+	
+	public static boolean validate(HttpServletRequest request) {
+	    String captcha = request.getParameter("captcha");
+	    String answer = (String)request.getSession().getAttribute(ApplicationConstance.SESSION_CAPTCHA);
+        if(captcha.equalsIgnoreCase(answer)) {
+            request.getSession().removeAttribute(ApplicationConstance.SESSION_CAPTCHA);
+            return true;
+        }
+        return false;
+	}
 }

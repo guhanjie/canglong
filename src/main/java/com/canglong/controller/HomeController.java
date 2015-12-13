@@ -31,6 +31,7 @@ public class HomeController {
 	@ResponseBody
 	public User getUserById(@PathVariable("userId") Long id) {
 		User user = userService.getUser(id);
+		user.setPassword("*");
 		return user;
 	}
 }

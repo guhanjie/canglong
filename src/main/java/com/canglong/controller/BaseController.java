@@ -143,13 +143,4 @@ public abstract class BaseController {
         }		
 	}
 	
-	protected User getUser(HttpServletRequest request) {
-		String at = HttpUtils.getCookieValueByName(request, ApplicationConstance.COOKIE_ACCESS_TOKEN);
-		if(at != null) {
-			User user = (User)request.getSession().getAttribute(at);
-			return user;
-		}
-		return null;
-	}
-
 }

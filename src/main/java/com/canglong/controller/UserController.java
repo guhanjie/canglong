@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.canglong.exception.WebException;
 import com.canglong.model.User;
@@ -102,7 +103,11 @@ public class UserController extends BaseController {
 	}
    
 	@RequestMapping(value="/signup", method=RequestMethod.POST)
-	public String signup(User user, HttpServletRequest request, HttpServletResponse response) {
+	@ResponseBody
+	public Object signup(User user, HttpServletRequest request, HttpServletResponse response) {
+	    if(!CaptchaController.validate(request)) {
+	        return fail("验证码输入错误");
+	    }
 		long userId = IdGenerator.getInstance().nextId();
 		user.setId(userId);
 		user.setLastIp(HttpUtils.getIpAddress(request));
@@ -111,8 +116,19 @@ public class UserController extends BaseController {
 				return login(user, request, response);
 			}
 		} catch(WebException e) {
-			request.setAttribute(e.getMessage(), e.getScreenMessage());
+			//request.setAttribute(e.getMessage(), e.getScreenMessage());
+		    return fail(response, e);
 		}
-		return "signup";
+		return fail("对不起，用户注册失败");
 	}
+	
+    public static User getUser(HttpServletRequest request) {
+        String at = HttpUtils.getCookieValueByName(request, ApplicationConstance.COOKIE_ACCESS_TOKEN);
+        if(at != null) {
+            User user = (User)request.getSession().getAttribute(at);
+            return user;
+        }
+        return null;
+    }
+
 }
