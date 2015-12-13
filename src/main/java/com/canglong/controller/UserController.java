@@ -53,7 +53,12 @@ public class UserController extends BaseController {
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public String login(User user, HttpServletRequest request, HttpServletResponse response) {
 		user.setLastIp(HttpUtils.getIpAddress(request));
-		user = userService.login(user);
+		try {
+		    user = userService.login(user);
+		} catch(WebException e) {
+		    request.setAttribute("loginError", e.getScreenMessage());
+		    return "login";
+		}
         String ticket = UUID.randomUUID().toString().replace("-", "");
         int expiry = 90*24*3600;        //90天过期
         Cookie cookie = new Cookie(ApplicationConstance.COOKIE_ACCESS_TOKEN, ticket);

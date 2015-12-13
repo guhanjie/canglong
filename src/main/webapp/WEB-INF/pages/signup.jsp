@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <form action="" method="post" autocomplete="on" class="form-horizontal">
-	<div class="form-group <c:if test="not empty ${request['user.name.not.exist']}">has-error</c:if>">
+	<div class="form-group <c:if test="${not empty request['user.name.not.exist']}">has-error</c:if>">
 		<label for="name" class="col-sm-2 control-label">用户名：</label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control" id="name" name="name" placeholder="请输入用户名" maxlength="30" autofocus required>
