@@ -95,7 +95,7 @@ public class UserController extends BaseController {
                }
            }
        }
-        return "login";
+        return "redirect:login";
     }
 	
    @RequestMapping(value="/signup", method=RequestMethod.GET)
@@ -118,7 +118,9 @@ public class UserController extends BaseController {
 		user.setLastIp(HttpUtils.getIpAddress(request));
 		try {
 			if(userService.register(user)) {
-				return login(user, request, response);
+				user.setPassword("*");
+				return success(user);
+				//return login(user, request, response);
 			}
 		} catch(WebException e) {
 			//request.setAttribute(e.getMessage(), e.getScreenMessage());

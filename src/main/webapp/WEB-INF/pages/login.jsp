@@ -19,7 +19,7 @@
 			<button type="submit" class="btn btn-default">登录</button>
 		</div>
 		<c:if test="${not empty loginError}">
-			<div class="col-sm-9 has-error">
+			<div class="col-sm-5 has-error">
 				<span class="help-block">登录失败：${loginError}</span>
 			</div>
 		</c:if>

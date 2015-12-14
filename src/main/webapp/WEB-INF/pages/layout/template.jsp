@@ -39,6 +39,7 @@
 		<t:insertAttribute name="body" />
         <t:importAttribute name="jsPath" />
         <script src="${rootPath}/${jsPath}/common/jquery-1.11.3.js"></script>
+        <script src="${rootPath}/${jsPath}/common/jquery.cookie.js"></script>
         <script src="${rootPath}/${jsPath}/common/bootstrap.js"></script>
         <t:importAttribute name="js" />
         <c:if test='${not empty js}'>

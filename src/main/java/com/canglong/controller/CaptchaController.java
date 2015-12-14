@@ -9,6 +9,7 @@ package com.canglong.controller;
 
 import java.io.IOException;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -34,7 +35,7 @@ import com.canglong.util.CaptchaGenerator;
 public class CaptchaController extends BaseController {
 		
 	@RequestMapping(value="", method=RequestMethod.GET)
-	public void createCaptcha(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public void getCaptcha(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// 设置响应的类型格式为图片格式  
         response.setContentType("image/jpeg");  
         //禁止图像缓存。  
@@ -44,7 +45,10 @@ public class CaptchaController extends BaseController {
         //设置验证码答案
         HttpSession session = request.getSession();            
         CaptchaGenerator vCode = new CaptchaGenerator(100,30,4,50);  
-        session.setAttribute(ApplicationConstance.SESSION_CAPTCHA, vCode.getCode());  
+        Cookie cookie = new Cookie(ApplicationConstance.COOKIE_CAPTCHA, vCode.getCode());
+        cookie.setMaxAge(-1);
+        response.addCookie(cookie);
+        session.setAttribute(ApplicationConstance.SESSION_CAPTCHA, vCode.getCode());
         vCode.write(response.getOutputStream());  
 	}
 	

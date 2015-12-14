@@ -19,6 +19,7 @@ public interface ApplicationConstance {
 	//cookie
     public static final String COOKIE_ACCESS_TOKEN = "access_token";
     public static final String COOKIE_USER_NAME = "user_name";
+    public static final String COOKIE_CAPTCHA = "captcha";
     
     //session
     public static final String SESSION_CAPTCHA = "captcha";
