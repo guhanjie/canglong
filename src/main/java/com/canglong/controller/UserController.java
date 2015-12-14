@@ -113,7 +113,7 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public Object signup(User user, HttpServletRequest request, HttpServletResponse response) {
 	    if(!CaptchaController.validate(request)) {
-	        return fail("验证码输入错误");
+	        return fail("验证码不正确，请重新输入");
 	    }
 		long userId = IdGenerator.getInstance().nextId();
 		user.setId(userId);

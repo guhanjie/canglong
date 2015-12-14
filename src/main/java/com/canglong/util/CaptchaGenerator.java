@@ -43,7 +43,7 @@ public class CaptchaGenerator {// 图片的宽度。
 	private BufferedImage	buffImg			= null;
 	private char[]			codeSequence	= {'A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
 	                                                        'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
-	                                                        'X', 'Y', '1', '3', '4', '5', '6', '7', '9'};
+	                                                        'X', 'Y', '1', '3', '4', '5', '6', '7'};
 															
 	public CaptchaGenerator() {
 		this.createCode();

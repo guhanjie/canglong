@@ -41,6 +41,7 @@
         <script src="${rootPath}/${jsPath}/common/jquery-1.11.3.js"></script>
         <script src="${rootPath}/${jsPath}/common/jquery.cookie.js"></script>
         <script src="${rootPath}/${jsPath}/common/bootstrap.js"></script>
+        <script type="text/javascript">App = {"rootPath": "/canglong"};</script>
         <t:importAttribute name="js" />
         <c:if test='${not empty js}'>
             <script src="${rootPath}/${jsPath}/${js}.js"></script>
