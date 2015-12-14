@@ -33,13 +33,13 @@
     <definition name="login" extends="main">
     	<put-attribute name="title" value="沧龙 - 登录" />
         <put-attribute name="content" value="/WEB-INF/pages/login.jsp"  cascade="true"/>
+        <put-attribute name="css" value="login" />
+        <put-attribute name="js" value="login" />
     </definition>
 
     <definition name="user" extends="main">
     	<put-attribute name="title" value="沧龙 - 用户中心" />
         <put-attribute name="content" value="/WEB-INF/pages/user.jsp"  cascade="true"/>
-        <put-attribute name="css" value="user" />
-        <put-attribute name="js" value="user" />
     </definition>
 
     <definition name="order" extends="main">

@@ -26,12 +26,12 @@
 			<input type="email" class="form-control" id="email" name="email" placeholder="请输入联系邮箱" maxlength="50" required>
 		</div>
 	</div>
-	<div class="form-group">
+	<!-- <div class="form-group">
 		<label for="bank" class="col-sm-2 control-label">提现银行卡号：</label>
 		<div class="col-sm-5">
 			<input type="text" class="form-control" id="bank" name="bank" placeholder="请输入提现银行卡号" maxlength="20" required>
 		</div>
-	</div>
+	</div> -->
 	<div class="form-group">
 		<label for="captcha" class="col-sm-2 control-label">验证码：</label>
 		<div class="col-sm-2">

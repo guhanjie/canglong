@@ -3,8 +3,8 @@
 <div class="header">
 	<span>这里是Header</span>
 	<div class="header-right">
-		<span>${user.name}</span>
-		<c:if test="${not empty user}">
+		<span>${loginUser.name}</span>
+		<c:if test="${not empty loginUser}">
 			<a href="${rootPath}/logout">[登出]</a>
 		</c:if>
 	</div>

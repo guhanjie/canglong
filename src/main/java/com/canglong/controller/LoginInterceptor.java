@@ -45,7 +45,10 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-
+//    	String at = HttpUtils.getCookieValueByName(request, ApplicationConstance.COOKIE_ACCESS_TOKEN);
+//    	if(at != null) {
+//    		modelAndView.addObject("loginUser", request.getSession().getAttribute(at));
+//    	}
     }
 
     @Override

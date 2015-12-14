@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -51,7 +52,7 @@ public class UserController extends BaseController {
     }
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String login(User user, HttpServletRequest request, HttpServletResponse response) {
+	public String login(User user, HttpServletRequest request, HttpServletResponse response, Model model) {
 		user.setLastIp(HttpUtils.getIpAddress(request));
 		try {
 		    user = userService.login(user);
@@ -70,6 +71,7 @@ public class UserController extends BaseController {
 		request.getSession().setAttribute(ticket, user);		//store in session
 		String gotoUrl = request.getParameter("goto");
 		if(StringUtils.isBlank(gotoUrl)) {
+			model.addAttribute("loginUser", user);
 		    return "user";
 		}
 		else {
@@ -118,7 +120,6 @@ public class UserController extends BaseController {
 		user.setLastIp(HttpUtils.getIpAddress(request));
 		try {
 			if(userService.register(user)) {
-				user.setPassword("*");
 				return success(user);
 				//return login(user, request, response);
 			}

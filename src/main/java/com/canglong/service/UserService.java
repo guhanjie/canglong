@@ -41,6 +41,7 @@ public class UserService {
 		else {
 			throw WebExceptionFactory.exception(WebExceptionEnum.ACCESS_FORBIDDEN, "密码错误");
 		}
+		u.setPassword("*");
 		return u;
 	}
 	
@@ -64,6 +65,7 @@ public class UserService {
 		}
 		//注册用户
 		int res = userMapper.insert(user);
+		user.setPassword("*");
 		return res == 1;
 	}
 }

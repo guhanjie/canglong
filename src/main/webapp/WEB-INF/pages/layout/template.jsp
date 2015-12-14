@@ -11,7 +11,7 @@
 	request.setAttribute("rootPath", path);
 	String at = HttpUtils.getCookieValueByName(request, ApplicationConstance.COOKIE_ACCESS_TOKEN);
 	if(at != null) {
-		request.setAttribute("user", request.getSession().getAttribute(at));
+		request.setAttribute("loginUser", request.getSession().getAttribute(at));
 	}
 %>
 <!DOCTYPE html>
@@ -31,7 +31,7 @@
         <link rel="stylesheet" href="${rootPath}/${cssPath}/common/footer.css">
     	<t:importAttribute name="css" />
         <c:if test='${not empty css}'>
-            <script src="${rootPath}/${cssPath}/${css}.css"></script>
+            <link rel="stylesheet" href="${rootPath}/${cssPath}/${css}.css">
         </c:if>
     	<title><t:getAsString name="title"/></title>
     </head>
