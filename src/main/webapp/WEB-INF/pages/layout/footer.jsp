@@ -14,12 +14,11 @@
         <ul class="links list-unstyled list-inline text-center">
             <li>
                 <h5>联系我们</h5>
-				<div class="tel">400 - 016 - 6166</div>
+				<div class="tel">400 - 000 - 1234</div>
             </li>
         </ul>
     </div>
     <div class="copyright">
-		<p>Copyright © 1998-2015 Glodon, INC.</p>
-		<p>京ICP证010012号 京ICP备10021606号-1 京公网安备110108401234号</p>
+		<p>Copyright © 1998-2015 Canglong, INC.</p>
     </div>
 </div>
