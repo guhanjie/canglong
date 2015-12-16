@@ -3,9 +3,14 @@
 <div class="header">
 	<span>这里是Header</span>
 	<div class="header-right">
-		<span>${loginUser.name}</span>
-		<c:if test="${not empty loginUser}">
-			<a href="${rootPath}/logout">[登出]</a>
-		</c:if>
+		<c:choose>
+			<c:when test="${not empty loginUser}">
+				<span>${loginUser.name}</span>
+				<a href="${rootPath}/logout">[登出]</a>
+			</c:when>
+			<c:otherwise>
+				<a href="${rootPath}/login">[登录]</a>
+			</c:otherwise>
+		</c:choose>
 	</div>
 </div>

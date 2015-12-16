@@ -12,7 +12,9 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/mvc/spring-aop-4.1.xsd">
 
     <import resource="db-mysql.xml"/>
-	<context:property-placeholder location="classpath:default.properties" ignore-unresolvable="true" ignore-resource-not-found="true" />
+	<context:property-placeholder
+		location="classpath:default.properties, file:${user.home}/canglong/default.properties"
+		ignore-unresolvable="true" ignore-resource-not-found="true" />
    
 	<context:component-scan base-package="com.canglong.service" />
         

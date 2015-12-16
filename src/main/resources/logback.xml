@@ -2,9 +2,10 @@
 <configuration scan="true" scanPeriod="6 seconds" debug="true">
 	<property name="PROJECT_NAME" value="canglong" />
     <property name="PROJECT_LOG_DIR" value="${user.home}/logs/${PROJECT_NAME}" />
-    <property name="log.root.level" value="DEBUG" />
-    <property name="log.sql.level" value="info" />
+    <property name="log.root.level" value="INFO" />
+    <property name="log.sql.level" value="INFO" />
     <property file="default.properties"/>
+    <property file="${user.home}/canglong/default.properties"/>
     
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
@@ -25,7 +26,7 @@
 	
 	<logger name="com.canglong" level="${log.root.level}"/>
     <logger name="java.sql" level="${log.sql.level}"/>
-    <logger name="org.springframework" level="DEBUG"/>
+    <logger name="org.springframework" level="WARN"/>
 	
 	<!-- TRACE < DEBUG < INFO < WARN < ERROR -->	 
 	<root level="${log.root.level}">
