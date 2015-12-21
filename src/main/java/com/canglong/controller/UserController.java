@@ -123,7 +123,7 @@ public class UserController extends BaseController {
 				return success(user);
 				//return login(user, request, response);
 			}
-		} catch(WebException e) {
+		} catch(Exception e) {
 			//request.setAttribute(e.getMessage(), e.getScreenMessage());
 		    return fail(response, e);
 		}
