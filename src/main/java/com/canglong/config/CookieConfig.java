@@ -17,8 +17,9 @@ package com.canglong.config;
  */
 public interface CookieConfig {    
 	
-    public static final String ACCESS_TOKEN = "access_token";
     public static final String USER_NAME = "user_name";
     public static final String CAPTCHA = "captcha";
+    public static final String ACCESS_TOKEN = "access_token";
+    public static final String PROMOTION = "promotion";
     
 }

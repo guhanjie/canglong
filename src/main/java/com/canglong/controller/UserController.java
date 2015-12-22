@@ -103,11 +103,15 @@ public class UserController extends BaseController {
     }
 	
    @RequestMapping(value="/signup", method=RequestMethod.GET)
-	public String signup(HttpServletRequest request) {
+	public String signup(HttpServletRequest request, HttpServletResponse response) {
 	   User user = getUser(request);
 		if(user != null) {
 			return "user";
 		}
+		//store in cookie	
+		String promotion = request.getParameter("promotion");
+        Cookie cookie = new Cookie(CookieConfig.PROMOTION, promotion);
+        response.addCookie(cookie);
 		return "signup";
 	}
    
@@ -116,6 +120,11 @@ public class UserController extends BaseController {
 	public Object signup(User user, HttpServletRequest request, HttpServletResponse response) {
 	    if(!CaptchaController.validate(request)) {
 	        return fail("验证码不正确，请重新输入");
+	    }
+	    String promotion = HttpUtils.getCookieValueByName(request, CookieConfig.PROMOTION);
+	    if(promotion != null) {
+	    	String promotor = DESUtils.decrypt(promotion, SecurityConfig.DES_SECRET_KEY);
+	    	user.setPromotor(Long.valueOf(promotor));
 	    }
 		long userId = IdGenerator.getInstance().nextId();
 		user.setId(userId);
@@ -134,13 +143,16 @@ public class UserController extends BaseController {
 	
 	@RequestMapping(value="/promotion", method=RequestMethod.GET)
 	@ResponseBody
-	public Object getPromotionID(HttpServletRequest request) {
+	public Object getPromotionURL(HttpServletRequest request) {
 		User user = getUser(request);
 		if(user == null || user.getId() == null) {
 			return fail("推广ID生成失败，未获取到用户信息");
 		}
 		String promotionID = DESUtils.encrypt(user.getId().toString(), SecurityConfig.DES_SECRET_KEY);
-		return success(promotionID);
+		StringBuffer promotionURL = new StringBuffer(request.getContextPath());
+		promotionURL.append("/signup?promotion=");
+		promotionURL.append(promotionID);
+		return success(promotionURL);
 	}
 	
     private User getUser(HttpServletRequest request) {
