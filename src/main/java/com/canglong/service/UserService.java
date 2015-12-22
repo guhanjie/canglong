@@ -68,4 +68,5 @@ public class UserService {
 		user.setPassword("*");
 		return res == 1;
 	}
+	
 }

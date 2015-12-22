@@ -21,10 +21,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.canglong.config.CookieConfig;
+import com.canglong.config.SecurityConfig;
 import com.canglong.exception.WebException;
 import com.canglong.model.User;
 import com.canglong.service.UserService;
-import com.canglong.util.ApplicationConstance;
+import com.canglong.util.DESUtils;
 import com.canglong.util.HttpUtils;
 import com.canglong.util.IdGenerator;
 
@@ -62,7 +64,7 @@ public class UserController extends BaseController {
 		}
         String ticket = UUID.randomUUID().toString().replace("-", "");
         int expiry = 90*24*3600;        //90天过期
-        Cookie cookie = new Cookie(ApplicationConstance.COOKIE_ACCESS_TOKEN, ticket);
+        Cookie cookie = new Cookie(CookieConfig.ACCESS_TOKEN, ticket);
         //cookie.setDomain(domainName);
         //cookie.setSecure(secure);// 为true时用于https
         cookie.setPath("/");
@@ -84,12 +86,12 @@ public class UserController extends BaseController {
        Cookie[] cookies = request.getCookies();
        if(cookies != null) {
            for(Cookie cookie : cookies) {
-               if(ApplicationConstance.COOKIE_USER_NAME.equals(cookie.getName())) {
+               if(CookieConfig.USER_NAME.equals(cookie.getName())) {
             	   cookie.setPath("/");
                    cookie.setMaxAge(0); //Delete Cookie
 					response.addCookie(cookie);
                }
-               else if(ApplicationConstance.COOKIE_ACCESS_TOKEN.equals(cookie.getName())) {
+               else if(CookieConfig.ACCESS_TOKEN.equals(cookie.getName())) {
             	   cookie.setPath("/");
                    cookie.setMaxAge(0); //Delete Cookie
 					response.addCookie(cookie);
@@ -130,8 +132,19 @@ public class UserController extends BaseController {
 		return fail("对不起，用户注册失败");
 	}
 	
-    public static User getUser(HttpServletRequest request) {
-        String at = HttpUtils.getCookieValueByName(request, ApplicationConstance.COOKIE_ACCESS_TOKEN);
+	@RequestMapping(value="/promotion", method=RequestMethod.GET)
+	@ResponseBody
+	public Object getPromotionID(HttpServletRequest request) {
+		User user = getUser(request);
+		if(user == null || user.getId() == null) {
+			return fail("推广ID生成失败，未获取到用户信息");
+		}
+		String promotionID = DESUtils.encrypt(user.getId().toString(), SecurityConfig.DES_SECRET_KEY);
+		return success(promotionID);
+	}
+	
+    private User getUser(HttpServletRequest request) {
+        String at = HttpUtils.getCookieValueByName(request, CookieConfig.ACCESS_TOKEN);
         if(at != null) {
             User user = (User)request.getSession().getAttribute(at);
             return user;

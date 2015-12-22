@@ -5,7 +5,7 @@
  * Create Date:		2015年12月7日 下午10:43:55 
  * Copyright (c) 2008-2015, Canglong All Rights Reserved.
  */  
-package com.canglong.util;
+package com.canglong.config;
 
 /**
  * Class Name:		ApplicationConstance<br/>
@@ -15,12 +15,10 @@ package com.canglong.util;
  * @version			1.0.0 
  * @since 			JDK 1.6 
  */
-public interface ApplicationConstance {    
-	//cookie
-    public static final String COOKIE_ACCESS_TOKEN = "access_token";
-    public static final String COOKIE_USER_NAME = "user_name";
-    public static final String COOKIE_CAPTCHA = "captcha";
+public interface CookieConfig {    
+	
+    public static final String ACCESS_TOKEN = "access_token";
+    public static final String USER_NAME = "user_name";
+    public static final String CAPTCHA = "captcha";
     
-    //session
-    public static final String SESSION_CAPTCHA = "captcha";
 }

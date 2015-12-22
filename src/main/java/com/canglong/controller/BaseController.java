@@ -10,10 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.canglong.config.CookieConfig;
 import com.canglong.exception.WebException;
 import com.canglong.exception.WebExceptionEnum;
 import com.canglong.model.User;
-import com.canglong.util.ApplicationConstance;
 import com.canglong.util.HttpUtils;
 
 public abstract class BaseController {

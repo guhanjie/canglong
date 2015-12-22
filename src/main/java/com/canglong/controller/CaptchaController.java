@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.canglong.util.ApplicationConstance;
+import com.canglong.config.CookieConfig;
+import com.canglong.config.SessionConfig;
 import com.canglong.util.CaptchaGenerator;
 
 /**
@@ -45,17 +46,17 @@ public class CaptchaController extends BaseController {
         //设置验证码答案
         HttpSession session = request.getSession();            
         CaptchaGenerator vCode = new CaptchaGenerator(100,30,4,50);  
-        Cookie cookie = new Cookie(ApplicationConstance.COOKIE_CAPTCHA, vCode.getCode());
+        Cookie cookie = new Cookie(CookieConfig.CAPTCHA, vCode.getCode());
         cookie.setMaxAge(-1);
         response.addCookie(cookie);
-        session.setAttribute(ApplicationConstance.SESSION_CAPTCHA, vCode.getCode());
+        session.setAttribute(SessionConfig.CAPTCHA, vCode.getCode());
         vCode.write(response.getOutputStream());  
 	}
 	
 	@RequestMapping(value="/validation", method=RequestMethod.POST)
 	@ResponseBody
 	public Object validate(String captchaStr, HttpServletRequest request, HttpServletResponse response) {
-		String answer = (String)request.getSession().getAttribute(ApplicationConstance.SESSION_CAPTCHA);
+		String answer = (String)request.getSession().getAttribute(SessionConfig.CAPTCHA);
 		if(captchaStr.equalsIgnoreCase(answer)) {
 			return success();
 		}
@@ -64,9 +65,9 @@ public class CaptchaController extends BaseController {
 	
 	public static boolean validate(HttpServletRequest request) {
 	    String captcha = request.getParameter("captcha");
-	    String answer = (String)request.getSession().getAttribute(ApplicationConstance.SESSION_CAPTCHA);
+	    String answer = (String)request.getSession().getAttribute(SessionConfig.CAPTCHA);
         if(captcha.equalsIgnoreCase(answer)) {
-            request.getSession().removeAttribute(ApplicationConstance.SESSION_CAPTCHA);
+            request.getSession().removeAttribute(SessionConfig.CAPTCHA);
             return true;
         }
         return false;

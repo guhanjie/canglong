@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.canglong.config.CookieConfig;
 import com.canglong.model.User;
-import com.canglong.util.ApplicationConstance;
 import com.canglong.util.HttpUtils;
 
 @Component(value = "loginInterceptor")
@@ -21,7 +21,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         LOGGER.debug("intercept request URL:[{}]", request.getRequestURL());
-        String at = HttpUtils.getCookieValueByName(request, ApplicationConstance.COOKIE_ACCESS_TOKEN);
+        String at = HttpUtils.getCookieValueByName(request, CookieConfig.ACCESS_TOKEN);
         if(at != null) {
             User user = (User)request.getSession().getAttribute(at);
             if(user != null) {
