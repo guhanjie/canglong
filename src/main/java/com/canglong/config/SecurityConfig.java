@@ -17,5 +17,5 @@ package com.canglong.config;
  */
 public interface SecurityConfig {
 	
-	public final String DES_SECRET_KEY = "HDJKFK3264bfasHDFJ89547^#*@jdYL,aUID";
+	public final String DES_SECRET_KEY = "H3D2J6K4bf#s8F^7*jY@LaUI";
 }
