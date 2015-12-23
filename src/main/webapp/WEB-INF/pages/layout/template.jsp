@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="utf-8"%>
 <%@ page import="com.canglong.util.HttpUtils"%>
-<%@ page import="com.canglong.util.ApplicationConstance"%>
+<%@ page import="com.canglong.config.CookieConfig"%>
 <%@ taglib prefix="t" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
@@ -9,7 +9,7 @@
 		path = "";
 	}
 	request.setAttribute("rootPath", path);
-	String at = HttpUtils.getCookieValueByName(request, ApplicationConstance.COOKIE_ACCESS_TOKEN);
+	String at = HttpUtils.getCookieValueByName(request, CookieConfig.ACCESS_TOKEN);
 	if(at != null) {
 		request.setAttribute("loginUser", request.getSession().getAttribute(at));
 	}
