@@ -58,6 +58,12 @@ public class UserController extends BaseController {
 		user.setLastIp(HttpUtils.getIpAddress(request));
 		try {
 		    user = userService.login(user);
+		    String promotionID = "";
+			if(user == null || user.getId() == null) {
+				promotionID = "推广ID生成失败，未获取到用户信息";
+			}
+			promotionID = DESUtils.encrypt(user.getId().toString(), SecurityConfig.DES_SECRET_KEY);
+			user.setPromotionID(promotionID);
 		} catch(WebException e) {
 		    request.setAttribute("loginError", e.getScreenMessage());
 		    return "login";
@@ -79,6 +85,33 @@ public class UserController extends BaseController {
 		else {
 		    return "redirect:"+gotoUrl;
 		}
+	}
+	
+	@RequestMapping(value="/login", method=RequestMethod.POST)
+	@ResponseBody
+	public Object login(User user, HttpServletRequest request, HttpServletResponse response) {
+		user.setLastIp(HttpUtils.getIpAddress(request));
+		try {
+		    user = userService.login(user);
+		    String promotionID = "";
+			if(user == null || user.getId() == null) {
+				promotionID = "推广ID生成失败，未获取到用户信息";
+			}
+			promotionID = DESUtils.encrypt(user.getId().toString(), SecurityConfig.DES_SECRET_KEY);
+			user.setPromotionID(promotionID);
+		} catch(WebException e) {
+		    return fail(response, e);
+		}
+        String ticket = UUID.randomUUID().toString().replace("-", "");
+        int expiry = 90*24*3600;        //90天过期
+        Cookie cookie = new Cookie(CookieConfig.ACCESS_TOKEN, ticket);
+        //cookie.setDomain(domainName);
+        //cookie.setSecure(secure);// 为true时用于https
+        cookie.setPath("/");
+        cookie.setMaxAge(expiry);
+        response.addCookie(cookie);								//store in cookie
+		request.getSession().setAttribute(ticket, user);		//store in session
+		return success(user);
 	}
 	
    @RequestMapping(value="/logout", method=RequestMethod.GET)
